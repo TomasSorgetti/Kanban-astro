@@ -1,4 +1,5 @@
 ---
+import Header from "../components/Header.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -33,7 +34,8 @@ const { title = "", description = "", lang = "es" } = Astro.props;
     <meta name="twitter:url" content="" />
   </head>
 
-  <body class="bg-background w-screen overflow-x-hidden">
+  <body class="bg-primary-bg w-screen overflow-x-hidden">
+    <Header />
     <slot />
   </body>
 </html>

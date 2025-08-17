@@ -1,0 +1,231 @@
+---
+import HeaderLink, { Device } from "./HeaderLink.astro";
+---
+
+<header class="fixed top-0 z-60 w-screen bg-white shadow-xl">
+  <nav
+    class="mx-auto flex container items-center justify-between p-4 lg:px-8"
+    aria-label="Global"
+  >
+    <div class="flex w-full justify-between items-center">
+      <a href="/">
+        <img src="/logo.svg" alt="logo" />
+      </a>
+      <div
+        class="hidden lg:flex lg:items-center lg:justify-end lg:gap-x-12 lg:w-full"
+      >
+        <HeaderLink
+          text="Beneficios"
+          href="/beneficios"
+          device={Device.DESKTOP}
+        />
+        <HeaderLink
+          text="Características"
+          href="/caracteristicas"
+          device={Device.DESKTOP}
+        />
+        <a
+          href="/auth/login"
+          class="block cursor-pointer border-2 border-primary rounded-sm px-5 py-2 text-center font-bold text-primary hover:text-white hover:bg-primary"
+          aria-disabled="true">Iniciar Sesión</a
+        >
+      </div>
+
+      <div class="flex lg:hidden">
+        <button
+          type="button"
+          id="open-menu-button"
+          class="-m-2.5 inline-flex cursor-pointer items-center justify-center rounded-md p-2.5 text-black transition-all duration-300 will-change-transform hover:scale-150"
+        >
+          <span class="sr-only">Abrir Menú Principal</span>
+          <svg
+            class="size-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            aria-hidden="true"
+            data-slot="icon"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <dialog
+    class="bg-primary z-50 max-h-[80vh] w-full max-w-full translate-x-0 transition-discrete duration-300 lg:hidden starting:-translate-x-full [&:not([open])]:-translate-x-full"
+    id="mobile-menu"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="z-10 overflow-y-auto px-6 py-6">
+      <div class="container mx-auto">
+        <div class="flex items-center justify-between">
+          <div class="w-full flex justify-end">
+            <button
+              type="button"
+              id="close-menu-button"
+              class="-m-2.5 cursor-pointer p-2.5 text-white transition-all duration-300 ease-in will-change-transform hover:scale-150"
+            >
+              <span class="sr-only">Cerrar Menú</span>
+              <svg
+                class="size-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                aria-hidden="true"
+                data-slot="icon"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18 18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="mt-6 space-y-2">
+          <HeaderLink
+            text="Beneficios"
+            href="/beneficios"
+            device={Device.MOBILE}
+          />
+          <HeaderLink
+            text="Características"
+            href="/caracteristicas"
+            device={Device.MOBILE}
+          />
+          <a
+            href="/auth/login"
+            class="block w-full cursor-not-allowed rounded-full bg-gray-300 px-5 py-2 text-center font-bold text-gray-500 opacity-70"
+            aria-disabled="true">Iniciar Sesión</a
+          >
+        </div>
+      </div>
+    </div>
+  </dialog>
+</header>
+
+<script>
+  // Get the menu elements
+  const mobileMenu = document.getElementById(
+    "mobile-menu"
+  ) as HTMLDialogElement;
+  const openMenuButton = document.getElementById("open-menu-button");
+  const closeMenuButton = document.getElementById("close-menu-button");
+  const mobileItems = mobileMenu.querySelectorAll("a");
+  const backdrop = document.getElementById("backdrop");
+
+  const toggleMenu = () => {
+    mobileMenu.open ? mobileMenu.close() : mobileMenu.showModal();
+
+    if (mobileMenu.open) {
+      backdrop?.classList.add("visible");
+    } else {
+      backdrop?.classList.remove("visible");
+    }
+  };
+
+  // Add event listener to open menu button
+  openMenuButton?.addEventListener("click", toggleMenu);
+
+  // Add event listener to close menu button
+  closeMenuButton?.addEventListener("click", toggleMenu);
+
+  document.addEventListener("click", (event) => {
+    const isClickInsideMenu = mobileMenu.contains(event.target as Node);
+    const isClickInsideButton = openMenuButton?.contains(event.target as Node);
+
+    if (isClickInsideMenu && !isClickInsideButton) {
+      mobileMenu.close();
+      backdrop?.classList.remove("visible");
+    }
+  });
+
+  mobileItems?.forEach((item) => item.addEventListener("click", toggleMenu));
+</script>
+
+<style>
+  @reference "../styles/global.css";
+
+  header {
+    @apply border-b border-b-transparent;
+    transition:
+      background 0.3s,
+      padding-bottom 0.2s,
+      border-bottom-color 0.1s;
+  }
+
+  .end-state {
+    @apply bg-primary/60 border-b-[#b50066] pb-6 backdrop-blur-md;
+  }
+
+  #backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 100;
+  }
+
+  .tickets-button {
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tickets-button::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: rotate(30deg);
+    animation: shine 3s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 0% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%) rotate(30deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(30deg);
+    }
+  }
+
+  #backdrop.visible {
+    opacity: 1;
+  }
+
+  dialog::backdrop {
+    display: none;
+  }
+</style>
