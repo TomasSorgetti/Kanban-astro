@@ -1,13 +1,11 @@
 // src/components/TestimonialSliderCard.tsx
-import * as React from "react";
-import { Image } from "astro:assets";
 import { Card, CardContent } from "./ui/Card";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
   CarouselPrevious,
+  CarouselNext,
 } from "./ui/Carousel";
 import type { Testimonial } from "../types/testimonials";
 
@@ -19,8 +17,8 @@ export default function TestimonialSliderCard({
   testimonials,
 }: TestimonialSliderCardProps) {
   return (
-    <section className="w-full py-4">
-      <div className="mx-auto container px-3">
+    <section className="w-full mx-auto container py-4">
+      <div className=" px-3">
         <Carousel>
           <CarouselContent>
             {testimonials.map((testimonial, index) => (
@@ -57,8 +55,8 @@ export default function TestimonialSliderCard({
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute -left-2 top-1/2 -translate-y-1/2" />
-          <CarouselNext className="absolute -right-2 top-1/2 -translate-y-1/2" />
+          <CarouselPrevious />
+          <CarouselNext />
         </Carousel>
       </div>
     </section>
