@@ -1,9 +1,53 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
+
+import TestimonialSliderCard from "../components/TestimonialSliderCard";
+import type { Testimonial } from "../types/testimonials";
+
+// Datos de ejemplo
+const testimonials: Testimonial[] = [
+  {
+    quote: "Este producto cambió mi vida, ¡increíble experiencia!",
+    name: "Juan Pérez",
+    role: "Desarrollador",
+    imgSrc: "/images/user1.png",
+  },
+  {
+    quote: "La mejor solución que he probado, muy recomendable.",
+    name: "Ana Gómez",
+    role: "Diseñadora",
+    imgSrc: "/images/user1.png",
+  },
+  {
+    quote: "Soporte excelente y gran calidad.",
+    name: "Carlos López",
+    role: "Gerente",
+    imgSrc: "/images/user1.png",
+  },
+  {
+    quote: "Soporte excelente y gran calidad.",
+    name: "Carlos López",
+    role: "Gerente",
+    imgSrc: "/images/user1.png",
+  },
+  {
+    quote: "Soporte excelente y gran calidad.",
+    name: "Carlos López",
+    role: "Gerente",
+    imgSrc: "/images/user1.png",
+  },
+  {
+    quote: "Soporte excelente y gran calidad.",
+    name: "Carlos López",
+    role: "Gerente",
+    imgSrc: "/images/user1.png",
+  },
+];
 ---
 
 <MainLayout title="BuildFlow">
-  <main class="min-h-[200vh]">
+  <main class="min-h-screen">
     <h1 class="mt-40">Astro</h1>
+    <TestimonialSliderCard client:load testimonials={testimonials} />
   </main>
 </MainLayout>
